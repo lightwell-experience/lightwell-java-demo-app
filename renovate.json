@@ -1,0 +1,17 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    "github>lightwell-experience/renovate-config:java-remediated#1.0.0"
+  ],
+  "packageRules": [
+    {
+      "description": "Use the public Lightwell demo repository (no auth required) instead of the default Lightwell registry",
+      "matchManagers": ["custom.regex"],
+      "matchDatasources": ["maven"],
+      "registryUrls": [
+        "https://packages.redhat.com/lightwell/public-lightwell-demo/java/remediated/"
+      ]
+    }
+  ]
+}
