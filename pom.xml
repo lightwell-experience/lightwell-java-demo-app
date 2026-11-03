@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.6.6</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>com.redhat.tpa</groupId>
+    <artifactId>help-im-vulnerable</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+
+    <name>Help I'm Vulnerable</name>
+    <description>Intentionally vulnerable Spring Boot app for TPA vulnerability and remediation demos</description>
+
+    <properties>
+        <java.version>17</java.version>
+    </properties>
+
+    <dependencies>
+        <!-- Spring Boot starters (Boot 2.6.6 -> Spring Framework 5.3.18, Spring Security 5.6.2) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <!-- Woodstox 6.0.3 — CVE-2022-40152 (RHLW fix: 6.0.3.rhlw-00001) -->
+        <dependency>
+            <groupId>com.fasterxml.woodstox</groupId>
+            <artifactId>woodstox-core</artifactId>
+            <version>6.0.3</version>
+        </dependency>
+
+        <!-- org.json 20220320 — CVE-2022-45688, CVE-2023-5072 (RHLW fix: 20220320.0.0.rhlw-00003) -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20220320</version>
+        </dependency>
+
+        <!-- json-path 2.8.0 — CVE-2023-51074 (RHLW fix: 2.8.0.rhlw-00001) -->
+        <dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path</artifactId>
+            <version>2.8.0</version>
+        </dependency>
+
+        <!-- Apache HttpClient 4.5.12 — CVE-2020-13956 -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.12</version>
+        </dependency>
+
+        <!-- json-smart 2.4.8 — CVE-2023-1370, CVE-2024-57699 -->
+        <dependency>
+            <groupId>net.minidev</groupId>
+            <artifactId>json-smart</artifactId>
+            <version>2.4.8</version>
+        </dependency>
+
+        <!-- Commons FileUpload 1.4 — CVE-2023-24998 -->
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.4</version>
+        </dependency>
+
+        <!-- Commons IO 2.11.0 — CVE-2024-47554 -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.11.0</version>
+        </dependency>
+
+        <!-- H2 2.1.214 — CVE-2022-45868 -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>2.1.214</version>
+        </dependency>
+
+        <!-- plexus-utils 3.5.0 — CVE-2025-67030 -->
+        <dependency>
+            <groupId>org.codehaus.plexus</groupId>
+            <artifactId>plexus-utils</artifactId>
+            <version>3.5.0</version>
+        </dependency>
+
+        <!-- hutool-json 5.8.10 — CVE-2022-45688 -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-json</artifactId>
+            <version>5.8.10</version>
+        </dependency>
+
+        <!-- JUnit 4.13 (test) — CVE-2020-15250 -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.cyclonedx</groupId>
+                <artifactId>cyclonedx-maven-plugin</artifactId>
+                <version>2.9.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>makeAggregateBom</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <schemaVersion>1.6</schemaVersion>
+                    <outputFormat>json</outputFormat>
+                    <includeTestScope>false</includeTestScope>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
