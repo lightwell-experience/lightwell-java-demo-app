@@ -1,6 +1,7 @@
 FROM registry.access.redhat.com/ubi9/openjdk-17:1.24-3.1793588566 AS builder
 USER 0
 WORKDIR /build
+COPY .mvn ./.mvn
 COPY pom.xml .
 COPY src ./src
 RUN mvn -B clean package -DskipTests

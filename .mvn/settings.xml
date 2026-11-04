@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Resolves artifacts in this order of precedence:
+    1. Lightwell demo remediated repository
+    2. Lightwell demo validated repository
+    3. Maven Central (implicit, from the Maven super POM)
+  Maven tries repositories in declaration order, with Central always last.
+-->
+<settings>
+  <profiles>
+    <profile>
+      <id>lightwell-remediated</id>
+      <repositories>
+        <repository>
+          <id>lightwell-remediated</id>
+          <name>Red Hat Lightwell Network - Remediated</name>
+          <url>https://packages.redhat.com/lightwell/public-lightwell-demo/java/remediated/</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </repository>
+        <repository>
+          <id>lightwell-validated</id>
+          <name>Red Hat Lightwell Network - Validated</name>
+          <url>https://packages.redhat.com/lightwell/public-lightwell-demo/java/validated/</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </repository>
+      </repositories>
+    </profile>
+  </profiles>
+
+  <activeProfiles>
+    <activeProfile>lightwell-remediated</activeProfile>
+  </activeProfiles>
+</settings>
