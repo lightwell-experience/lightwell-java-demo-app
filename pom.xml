@@ -38,7 +38,7 @@
         <dependency>
             <groupId>com.fasterxml.woodstox</groupId>
             <artifactId>woodstox-core</artifactId>
-            <version>6.0.3</version>
+            <version>6.0.3.rhlw-00001</version>
         </dependency>
 
         <!-- org.json 20220320 — CVE-2022-45688, CVE-2023-5072 (RHLW fix: 20220320.0.0.rhlw-00003) -->
