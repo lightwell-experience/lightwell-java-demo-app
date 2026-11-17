@@ -70,7 +70,7 @@
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-            <version>20220320</version>
+            <version>20220320.0.0.rhlw-00003</version>
         </dependency>
 
         <!-- json-path 2.8.0 — CVE-2023-51074 (RHLW fix: 2.8.0.rhlw-00001) -->
