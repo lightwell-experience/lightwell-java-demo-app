@@ -12,11 +12,14 @@ cd "$SCRIPT_DIR"
 # Use the caller's standard temporary directory rather than /tmp directly.
 # macOS normally sets TMPDIR to a private per-user directory; /tmp is the
 # conventional fallback when TMPDIR is unset.
-WORK_DIR="$(mktemp -d "${TMPDIR:-/tmp}/lightwell-sbom.XXXXXX")"
-trap 'rm -rf "$WORK_DIR"' EXIT
+TMP_BASE="${TMPDIR:-/tmp}"
+WORK_DIR="$(mktemp -d "${TMP_BASE%/}/lightwell-sbom.XXXXXX")"
 MAVEN_SBOM="$WORK_DIR/maven-sbom.json"
 IMAGE_ARCHIVE="$WORK_DIR/help-im-vulnerable.tar"
 SYFT_SBOM="$WORK_DIR/syft-sbom.json"
+
+echo "Temporary workspace: $WORK_DIR"
+echo "Intermediate files are retained there if the script fails."
 
 echo "=== Step 1: Build container image ==="
 podman build -f Containerfile -t "$IMAGE_NAME" .
@@ -48,3 +51,5 @@ python3 "$SCRIPT_DIR/merge-sboms.py" \
 echo ""
 echo "=== Done ==="
 echo "SBOM: $OUTPUT"
+
+rm -f "$MAVEN_SBOM" "$IMAGE_ARCHIVE" "$SYFT_SBOM"
