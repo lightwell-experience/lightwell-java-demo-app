@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.lightwell</groupId>
+  <artifactId>rhlw-pins</artifactId>
+  <version>0.0.1</version>
+  <packaging>pom</packaging>
+  <description>Lightwell rhlw pins for transitive dependencies. Updated by the transitive-pins workflow.</description>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.jayway.jsonpath</groupId>
+        <artifactId>json-path</artifactId>
+        <version>2.8.0.rhlw-00001</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-core</artifactId>
+        <version>5.3.18.rhlw-00005</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+</project>
