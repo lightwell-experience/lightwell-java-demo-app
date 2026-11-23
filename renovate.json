@@ -12,6 +12,12 @@
       "registryUrls": [
         "https://packages.redhat.com/lightwell/public-lightwell-demo/java/remediated/"
       ]
+    },
+    {
+      "description": "The transitive pin BOM is updated by the transitive-pins workflow",
+      "matchManagers": ["custom.regex"],
+      "matchPackageNames": ["com.lightwell:rhlw-pins"],
+      "enabled": false
     }
   ]
 }

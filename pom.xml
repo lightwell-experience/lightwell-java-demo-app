@@ -45,6 +45,13 @@
                 <artifactId>spring-webmvc</artifactId>
                 <version>5.3.18</version>
             </dependency>
+            <dependency>
+                <groupId>com.lightwell</groupId>
+                <artifactId>rhlw-pins</artifactId>
+                <version>0.0.1</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -137,6 +144,21 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <repositories>
+        <repository>
+            <id>lightwell-pins</id>
+            <name>Lightwell transitive pin BOM</name>
+            <url>file://${maven.multiModuleProjectDirectory}/lightwell-pins-repo</url>
+            <releases>
+                <enabled>true</enabled>
+                <checksumPolicy>ignore</checksumPolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
     <build>
         <plugins>

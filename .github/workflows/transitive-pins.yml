@@ -1,0 +1,77 @@
+name: Transitive pins
+
+on:
+  schedule:
+    - cron: "0 7 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: transitive-pins
+  cancel-in-progress: false
+
+jobs:
+  pin-transitives:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Checkout renovate-config
+        uses: actions/checkout@v7
+        with:
+          repository: lightwell-experience/renovate-config
+          ref: main
+          path: .renovate-config
+          persist-credentials: false
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: maven
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: .renovate-config/package-lock.json
+
+      - name: Install Renovate
+        working-directory: .renovate-config
+        run: npm ci
+
+      - name: Pin transitive dependencies
+        env:
+          RENOVATE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          sed -i 's/RENOVATE_LOG_FILE: logFile,/RENOVATE_LOG_FILE: "renovate.ndjson",/' .renovate-config/scripts/pin-transitives.mjs
+          file="lightwell-pins-repo/com/lightwell/rhlw-pins/latest/rhlw-pins-latest.pom"
+          node .renovate-config/scripts/pin-transitives.mjs --write "$file"
+          version=$(sed -n '/<dependencyManagement>/q;s/.*<version>\([^<]*\)<\/version>.*/\1/p' "$file")
+          test -n "$version"
+          mkdir -p "lightwell-pins-repo/com/lightwell/rhlw-pins/${version}"
+          cp "$file" "lightwell-pins-repo/com/lightwell/rhlw-pins/${version}/rhlw-pins-${version}.pom"
+          sed -i -E "/<artifactId>rhlw-pins<\/artifactId>/,/<\/dependency>/ s|<version>[^<]*</version>|<version>${version}</version>|" pom.xml
+
+      - name: Open pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "Pin Lightwell rebuilds of transitive dependencies"
+          title: "Pin Lightwell rebuilds of transitive dependencies"
+          body: |
+            Updates `rhlw-pins-latest.pom` with Lightwell `rhlw` rebuilds, copies it to a new version in `lightwell-pins-repo`, and sets the import in `pom.xml` to that version.
+
+            Generated with `scripts/pin-transitives.mjs` from `lightwell-experience/renovate-config`.
+            The import applies to transitive dependencies. Spring Framework (`spring-core`, `spring-webmvc`, `spring-expression`) is the set published in the public Lightwell demo repository.
+            Direct dependencies keep the version declared in `pom.xml`.
+          branch: lightwell/transitive-pins
+          add-paths: |
+            lightwell-pins-repo/
+            pom.xml

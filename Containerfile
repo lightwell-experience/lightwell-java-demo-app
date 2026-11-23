@@ -3,6 +3,7 @@ USER 0
 WORKDIR /build
 COPY .mvn ./.mvn
 COPY pom.xml .
+COPY lightwell-pins-repo ./lightwell-pins-repo
 COPY src ./src
 RUN mvn -B clean package -DskipTests
 
