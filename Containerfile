@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi9/openjdk-17:1.24-3.1794341130 AS builder
+FROM registry.access.redhat.com/ubi9/openjdk-17:1.24-6.1795165351 AS builder
 USER 0
 WORKDIR /build
 COPY .mvn ./.mvn
